@@ -38,6 +38,7 @@ Tix.org is a ticketing system that allows organizations to create, assign, and u
 + **DatabaseManager** - handles all JDBC operations.
 
 #### 2.GUI: JavaFX with FXML views:
++ **LoginView.fxml** - serves as the initial login screen where users authenticate before accessing the application.
 + **MainView.fxml** - serves as the application shell with a left sidebar, user profile area, and a main content region for navigation and page switching.
 + **DashboardView.fxml** - presents the main dashboard overview, including ticket statistics, available tickets, pending tasks, and recent activity.
 + **AddTicketView.fxml** - provides the ticket creation form with fields for title, description, category, and deadline, along with submit and cancel actions.
