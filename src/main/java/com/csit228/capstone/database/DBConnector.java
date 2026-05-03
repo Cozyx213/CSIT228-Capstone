@@ -28,9 +28,9 @@ public class DBConnector {
 //            while((line = br.readLine())!=null){
 //                System.out.println(line);
 //            }
-            url = br.readLine();
-            user= br.readLine();
-            password= br.readLine();
+            url = br.readLine().trim();
+            user= br.readLine().trim();
+            password= br.readLine().trim();
         }catch (IOException e){
             e.printStackTrace();
         }
