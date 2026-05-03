@@ -10,6 +10,7 @@ module com.csit228.capstone {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.sql;
 
     exports com.csit228.capstone.controller;
     opens com.csit228.capstone.controller to javafx.fxml;
