@@ -1,5 +1,6 @@
 package com.csit228.capstone.dao;
 
+import java.lang.reflect.Type;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 
@@ -41,9 +42,7 @@ public class UserDAO {
         return userDAO;
     }
 
-
     public  Role getType(int id){
-
         for(String s : types){
             String[] res = s.split(" ");
             if(Integer.parseInt(res[0])==id){
@@ -52,8 +51,8 @@ public class UserDAO {
         }
         return null;
     }
-    public  int getTypeRev(Role r){
 
+    public  int getTypeRev(Role r){
         for(String s : types){
             String[] res = s.split(" ");
             if(Role.valueOf(res[1].toUpperCase())==r){
@@ -62,10 +61,10 @@ public class UserDAO {
         }
         return -1;
     }
-    public  void createUser(User u ) throws UsernameAlreadyTakenException {
+
+    public  void createUser(User u) throws UsernameAlreadyTakenException {
         String sql = "INSERT INTO user(firstname,lastname,username,password_hash,user_type,department_id) VALUES (?,?,?,?,?,?);";
         try(Connection connection = DBConnector.getConnection();
-
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1,u.getFirstname());
             preparedStatement.setString(2,u.getLastname());
@@ -84,6 +83,7 @@ public class UserDAO {
         }
         fetchUsers();
     }
+
 
 
 
@@ -135,7 +135,8 @@ public class UserDAO {
         }
         return null;
     }
-    public  List<User> getUserByDepartment(int id) {
+
+    public List<User> getUserByDepartment(int id) {
         List<User> res = new ArrayList<>();
         if(users==null){
             fetchUsers();
@@ -190,7 +191,6 @@ public class UserDAO {
         }catch (SQLException e){
             e.printStackTrace();
         }
-
     }
 
     public static void main(String[] args) throws InvalidCredentialsException {
