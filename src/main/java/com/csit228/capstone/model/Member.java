@@ -5,43 +5,57 @@ import java.util.List;
 
 public class Member extends User {
 
-
     public Member() {
         setRole(Role.MEMBER);
     }
 
-    public Member(int userId, String firstname, String lastname, String username, String passwordHash, Role role) {
-        super(userId, firstname, lastname, username, passwordHash, role);
+    public Member(int userId, String firstName, String lastName, String username, String passwordHash) {
+        super(userId, firstName, lastName, username, passwordHash, Role.MEMBER);
     }
 
     public void viewVolunteerBoard() {
-        // TO DO: connect this to VolunteerBoardController or VolunteerBoard screen
+        // connect this to VolunteerBoardController or VolunteerBoard screen
     }
 
     public boolean volunteerForTicket(Ticket t) {
-        // TO DO: connect this to VolunteerManager later
-        return false;
+        if (t == null) {
+            return false;
+        }
+
+        if (!t.isAvailableForVolunteer()) {
+            return false;
+        }
+
+        t.assignTo(this);
+        return true;
     }
 
     public List<Ticket> viewMyTasks() {
-        // TO DO: return tickets assigned to this member from TicketDAO
+        //return tickets assigned to this member from TicketDAO
         return new ArrayList<>();
     }
 
     public boolean updateTaskStatus(Ticket t) {
-        // TO DO: update the status of a task assigned to this member
-        return false;
+        if (t == null) {
+            return false;
+        }
+
+        if (t.getAssignedTo() == null) {
+            return false;
+        }
+
+        if (t.getAssignedTo().getUserId() != getUserId()) {
+            return false;
+        }
+
+        if (t.getStatus() == TicketStatus.OPEN) {
+            t.markInProgress();
+        }
+
+        return true;
     }
 
     public void receiveNotification(Notification n) {
-        // TO DO: implement once Notification class is created
-    }
-
-    public String getAvailabilityStatus() {
-        return availabilityStatus;
-    }
-
-    public void setAvailabilityStatus(String availabilityStatus) {
-        this.availabilityStatus = availabilityStatus;
+        //iconnect sa notification display or NotificationDAO
     }
 }
