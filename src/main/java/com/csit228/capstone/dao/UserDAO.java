@@ -15,7 +15,27 @@ public class UserDAO {
     private static List<User> users;
     private static  List<String> types;
 
-    public static Role getType(int id){
+    private static UserDAO userDAO;
+//
+//    public UserDAO(){
+//        users = new ArrayList<>();
+//        users.add((User)new Member(1,"juan","delacruz","bayan","strongpass",1));
+//    }
+    private UserDAO(){
+        users=new ArrayList<>();
+        types=new ArrayList<>();
+        fetchUsers();
+    }
+
+    public static UserDAO getUserDAO(){
+        if(userDAO==null){
+            userDAO = new UserDAO();
+        }
+        return userDAO;
+    }
+
+
+    public  Role getType(int id){
         fetchTypes();
         for(String s : types){
             String[] res = s.split(" ");
@@ -25,7 +45,7 @@ public class UserDAO {
         }
         return null;
     }
-    public static int getTypeRev(Role r){
+    public  int getTypeRev(Role r){
         fetchTypes();
         for(String s : types){
             String[] res = s.split(" ");
@@ -35,7 +55,7 @@ public class UserDAO {
         }
         return -1;
     }
-    public static void createUser(User u ){
+    public  void createUser(User u ){
         String sql = "INSERT INTO user(firstname,lastname,username,password_hash,user_type,department_id) VALUES (?,?,?,?,?,?);";
         try(Connection connection = DBConnector.getConnection();
 
@@ -59,7 +79,7 @@ public class UserDAO {
 
 
     public static void fetchTypes(){
-        types = new ArrayList<>();
+
         try(Connection connection = DBConnector.getConnection();
 
             Statement statement = connection.createStatement();
@@ -79,10 +99,7 @@ public class UserDAO {
     }
 
     //int userId, String firstname, String lastname, String username, String passwordHash, Role
-    public UserDAO(){
-        users = new ArrayList<>();
-        users.add((User)new Member(1,"juan","delacruz","bayan","strongpass",1));
-    }
+
 
 
     public User getUserById(int id) {
@@ -97,21 +114,22 @@ public class UserDAO {
         }
         return null;
     }
-    public User getUserByDepartment(int id) {
+    public  List<User> getUserByDepartment(int id) {
+        List<User> res = new ArrayList<>();
         if(users==null){
             fetchUsers();
         }
         for(User u :  users){
             if(u.getDepartment_id()== id){
-                return u;
+                res.add(u);
             }
         }
-        return null;
+        return res;
     }
 
 
 
-    public static void fetchUsers()  {
+    public  void fetchUsers()  {
         users = new ArrayList<>();
         try(Connection connection = DBConnector.getConnection()
            ;Statement statement = connection.createStatement();){
@@ -142,17 +160,22 @@ public class UserDAO {
     }
 
     public static void main(String[] args) {
-        Role r= getType(2);
-        System.out.println(r);
-        fetchUsers();
-
-        for (User u : users){
+//        Role r= getType(2);
+//        System.out.println(r);
+//        fetchUsers();
+//
+//        for (User u : users){
+//            System.out.println(u);
+//            System.out.println(u.getRole());;
+//        }
+//        //int userId, String firstName, String lastName, String username, String passwordHash, Role role, int department_id) {
+//        Member m = new Member(68,"priwnce","tag","jb","123",1);
+//
+//        createUser(m);
+        UserDAO ud= UserDAO.getUserDAO();
+        List<User> curr =ud.getUserByDepartment(1);
+        for(User u : curr){
             System.out.println(u);
-            System.out.println(u.getRole());;
         }
-        //int userId, String firstName, String lastName, String username, String passwordHash, Role role, int department_id) {
-        Member m = new Member(68,"priwnce","tag","jb","123",1);
-        createUser(m);
-
     }
 }
