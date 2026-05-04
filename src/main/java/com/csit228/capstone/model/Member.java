@@ -9,8 +9,11 @@ public class Member extends User {
         setRole(Role.MEMBER);
     }
 
-    public Member(int userId, String firstName, String lastName, String username, String passwordHash) {
-        super(userId, firstName, lastName, username, passwordHash, Role.MEMBER);
+    public Member(int userId, String firstName, String lastName, String username, String passwordHash, int departmentId) {
+        super(userId, firstName, lastName, username, passwordHash, Role.MEMBER, departmentId);
+    }
+
+    public Member(int i, String juan, String delacruz, String bayan, String strongpass, Role role) {
     }
 
     public void viewVolunteerBoard() {
