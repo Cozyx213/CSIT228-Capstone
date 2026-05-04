@@ -1,16 +1,21 @@
 package com.csit228.capstone.dao;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 
 import com.csit228.capstone.database.DBConnector;
+import com.csit228.capstone.exceptions.InvalidCredentialsException;
 import com.csit228.capstone.exceptions.UsernameAlreadyTakenException;
 import com.csit228.capstone.model.Member;
 import com.csit228.capstone.model.Role;
 import com.csit228.capstone.model.User;
 import com.csit228.capstone.model.UserFactory;
+import com.csit228.capstone.utils.Hash;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Object.*;
 
 public class UserDAO {
     private static List<User> users;
@@ -25,8 +30,8 @@ public class UserDAO {
     private UserDAO(){
         users=new ArrayList<>();
         types=new ArrayList<>();
-        fetchUsers();
         fetchTypes();
+        fetchUsers();
     }
 
     public static UserDAO getUserDAO(){
@@ -143,6 +148,22 @@ public class UserDAO {
         return res;
     }
 
+    public User login(String username, String password) throws InvalidCredentialsException {
+
+            String h = Hash.hashWithSHA256(password.trim());
+        System.out.println(h);
+            for(User u : users){
+                System.out.println(u.getPasswordHash());
+                if(u.getUsername().trim().equals(username.trim())  && u.getPasswordHash().equals(h) ){
+                    System.out.println("ASDAS");
+                    return u;
+                }
+            }
+
+            throw new InvalidCredentialsException();
+
+
+    }
 
 
     public  void fetchUsers()  {
@@ -159,12 +180,9 @@ public class UserDAO {
                         rs.getInt("id"),
                         rs.getString("firstname"),
                         rs.getString("lastname"),
+                        rs.getString("username"),
                         rs.getString("password_hash"),
-                        rs.getString("lastname"),
-
                         rs.getInt("department_id")
-
-
                         );
                 users.add(curr);
 
@@ -175,7 +193,7 @@ public class UserDAO {
 
     }
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws InvalidCredentialsException {
 //        Role r= getType(2);
 //        System.out.println(r);
 //        fetchUsers();
@@ -185,15 +203,23 @@ public class UserDAO {
 //            System.out.println(u.getRole());;
 //        }
 //        //int userId, String firstName, String lastName, String username, String passwordHash, Role role, int department_id) {
-        Member m = new Member(68,"priwnce","tag","qwejb","123",1);
+        //Member m = new Member(68,"priwnce","tag","jake",Hash.hashWithSHA256("123"),1);
 //
 
-            UserDAO ud= UserDAO.getUserDAO();
-            try{
-                ud.createUser(m);
-            }catch (UsernameAlreadyTakenException e){
-                System.out.println(e.getMessage());
-            }
+//            UserDAO ud= UserDAO.getUserDAO();
+////            try{
+////                ud.createUser(m);
+////            }catch (UsernameAlreadyTakenException e){
+////                System.out.println(e.getMessage());
+////            }
+////System.out.println(Hash.hashWithSHA256("123"));
+//            User curr = ud.login("jake","123");
+//
+//            if(curr!=null){
+//                System.out.println(curr + "is the user");
+//            }else{
+//                System.out.println("No user");
+//            }
 //        List<User> curr =ud.getUserByDepartment(1);
 //        for(User u : curr){
 //            System.out.println(u);
