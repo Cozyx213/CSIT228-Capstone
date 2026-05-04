@@ -1,5 +1,6 @@
 package com.csit228.capstone.controller;
 
+import com.csit228.capstone.dao.UserDAO;
 import com.csit228.capstone.utils.Controls;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -7,6 +8,8 @@ import javafx.scene.control.*;
 import java.io.IOException;
 
 public class LoginViewController {
+
+    UserDAO userDAO = UserDAO.getUserDAO();
 
     public TextField tfUsername;
     public TextField tfPassword;
@@ -30,6 +33,7 @@ public class LoginViewController {
         String password = (cbPassword.isSelected()) ? tfPassword.getText() : pfPassword.getText();
 
         // gamit dao here
+
 
         if(username.isBlank() || password.isBlank()){
             showError("Please fill in all fields.");

@@ -1,5 +1,10 @@
 package com.csit228.capstone.controller;
 
+import com.csit228.capstone.dao.UserDAO;
+import com.csit228.capstone.exceptions.UsernameAlreadyTakenException;
+import com.csit228.capstone.model.Role;
+import com.csit228.capstone.model.User;
+import com.csit228.capstone.model.UserFactory;
 import com.csit228.capstone.utils.Controls;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -8,6 +13,9 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 
 public class RegisterViewController {
+
+    private UserDAO userDAO = UserDAO.getUserDAO();
+
     public TextField tfFirstname;
     public TextField tfLastname;
     public TextField tfUsername;
@@ -30,9 +38,10 @@ public class RegisterViewController {
         if(firstname.isBlank() || lastname.isBlank() || username.isBlank() || password.isBlank() || confirmPassword.isBlank()){
             showError("Please fill in all fields!");
         } else if (confirmPassword.equals(password)){
-            // UserDAO add user to table
             closeError();
+
             Controls.switchScreen("LoginView.fxml");
+            System.out.println("User: " + username + " created");
         } else {
             showError("Passwords don't match.");
         }
