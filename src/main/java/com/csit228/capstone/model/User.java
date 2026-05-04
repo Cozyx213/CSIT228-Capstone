@@ -14,6 +14,7 @@ public abstract class User implements Serializable {
     private transient String passwordHash;
     private Role role;
 
+
     private int department_id;
 
     public User() {

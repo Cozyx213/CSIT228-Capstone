@@ -1,15 +1,13 @@
 package com.csit228.capstone.dao;
 
-import java.sql.Connection;
+import java.sql.*;
+
 import com.csit228.capstone.database.DBConnector;
 import com.csit228.capstone.model.Member;
 import com.csit228.capstone.model.Role;
 import com.csit228.capstone.model.User;
 import com.csit228.capstone.model.UserFactory;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +25,38 @@ public class UserDAO {
         }
         return null;
     }
+    public static int getTypeRev(Role r){
+        fetchTypes();
+        for(String s : types){
+            String[] res = s.split(" ");
+            if(Role.valueOf(res[1].toUpperCase())==r){
+                return  Integer.parseInt(res[0]);
+            }
+        }
+        return -1;
+    }
+    public static void createUser(User u ){
+        String sql = "INSERT INTO user(firstname,lastname,username,password_hash,user_type,department_id) VALUES (?,?,?,?,?,?);";
+        try(Connection connection = DBConnector.getConnection();
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setString(1,u.getFirstname());
+            preparedStatement.setString(2,u.getLastname());
+            preparedStatement.setString(3,u.getUsername());
+            preparedStatement.setString(4,u.getPasswordHash());
+            preparedStatement.setInt(5,getTypeRev(u.getRole()));
+            preparedStatement.setInt(6,u.getDepartment_id());
+            int rows = preparedStatement.executeUpdate();
+            if(rows>0){
+                System.out.println("added user "+ u.toString());
+            }
+        }catch (SQLException e){
+            System.out.println("USERNAME AKREADY TAKEN");
+        }
+        fetchUsers();
+    }
+
+
 
     public static void fetchTypes(){
         types = new ArrayList<>();
@@ -120,5 +150,9 @@ public class UserDAO {
             System.out.println(u);
             System.out.println(u.getRole());;
         }
+        //int userId, String firstName, String lastName, String username, String passwordHash, Role role, int department_id) {
+        Member m = new Member(68,"priwnce","tag","jb","123",1);
+        createUser(m);
+
     }
 }
