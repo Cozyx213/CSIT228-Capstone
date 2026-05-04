@@ -1,5 +1,6 @@
 package com.csit228.capstone.dao;
 
+import java.lang.reflect.Type;
 import java.sql.*;
 
 import com.csit228.capstone.database.DBConnector;
@@ -36,9 +37,7 @@ public class UserDAO {
         return userDAO;
     }
 
-
     public  Role getType(int id){
-
         for(String s : types){
             String[] res = s.split(" ");
             if(Integer.parseInt(res[0])==id){
@@ -47,8 +46,8 @@ public class UserDAO {
         }
         return null;
     }
-    public  int getTypeRev(Role r){
 
+    public  int getTypeRev(Role r){
         for(String s : types){
             String[] res = s.split(" ");
             if(Role.valueOf(res[1].toUpperCase())==r){
@@ -57,10 +56,10 @@ public class UserDAO {
         }
         return -1;
     }
-    public  void createUser(User u ) throws UsernameAlreadyTakenException {
+
+    public  void createUser(User u) throws UsernameAlreadyTakenException {
         String sql = "INSERT INTO user(firstname,lastname,username,password_hash,user_type,department_id) VALUES (?,?,?,?,?,?);";
         try(Connection connection = DBConnector.getConnection();
-
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1,u.getFirstname());
             preparedStatement.setString(2,u.getLastname());
@@ -79,6 +78,7 @@ public class UserDAO {
         }
         fetchUsers();
     }
+
 
 
 
@@ -130,7 +130,8 @@ public class UserDAO {
         }
         return null;
     }
-    public  List<User> getUserByDepartment(int id) {
+
+    public List<User> getUserByDepartment(int id) {
         List<User> res = new ArrayList<>();
         if(users==null){
             fetchUsers();
@@ -172,31 +173,30 @@ public class UserDAO {
         }catch (SQLException e){
             e.printStackTrace();
         }
-
     }
 
-    public static void main(String[] args)  {
-//        Role r= getType(2);
-//        System.out.println(r);
-//        fetchUsers();
+//    public static void main(String[] args)  {
+////        Role r= getType(2);
+////        System.out.println(r);
+////        fetchUsers();
+////
+////        for (User u : users){
+////            System.out.println(u);
+////            System.out.println(u.getRole());;
+////        }
+////        //int userId, String firstName, String lastName, String username, String passwordHash, Role role, int department_id) {
+//        Member m = new Member(68,"priwnce","tag","qwejb","123",1);
+////
 //
-//        for (User u : users){
-//            System.out.println(u);
-//            System.out.println(u.getRole());;
-//        }
-//        //int userId, String firstName, String lastName, String username, String passwordHash, Role role, int department_id) {
-        Member m = new Member(68,"priwnce","tag","qwejb","123",1);
-//
-
-            UserDAO ud= UserDAO.getUserDAO();
-            try{
-                ud.createUser(m);
-            }catch (UsernameAlreadyTakenException e){
-                System.out.println(e.getMessage());
-            }
-//        List<User> curr =ud.getUserByDepartment(1);
-//        for(User u : curr){
-//            System.out.println(u);
-//        }
-    }
+//            UserDAO ud= UserDAO.getUserDAO();
+//            try{
+//                ud.createUser(m);
+//            }catch (UsernameAlreadyTakenException e){
+//                System.out.println(e.getMessage());
+//            }
+////        List<User> curr =ud.getUserByDepartment(1);
+////        for(User u : curr){
+////            System.out.println(u);
+////        }
+//    }
 }
