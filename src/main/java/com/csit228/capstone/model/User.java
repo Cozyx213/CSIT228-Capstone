@@ -14,16 +14,32 @@ public abstract class User implements Serializable {
     private transient String passwordHash;
     private Role role;
 
+    private int department_id;
+
     public User() {
     }
 
-    public User(int userId, String firstName, String lastName, String username, String passwordHash, Role role) {
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public int getDepartment_id() {
+        return department_id;
+    }
+
+    public void setDepartment_id(int department_id) {
+        this.department_id = department_id;
+    }
+
+    public User(int userId, String firstName, String lastName, String username, String passwordHash, Role role, int department_id) {
+
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.passwordHash = passwordHash;
         this.role = role;
+        this.department_id = department_id;
     }
 
     public void viewDashboard() {
@@ -99,9 +115,7 @@ public abstract class User implements Serializable {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+
 
     public String getPasswordHash() {
         return passwordHash;

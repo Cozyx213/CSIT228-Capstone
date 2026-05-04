@@ -6,9 +6,11 @@ public class Editor extends User {
         setRole(Role.EDITOR);
     }
 
-    public Editor(int userId, String firstName, String lastName, String username, String passwordHash) {
-        super(userId, firstName, lastName, username, passwordHash, Role.EDITOR);
+    public Editor(int userId, String firstName, String lastName, String username, String passwordHash, int department_id) {
+        super(userId, firstName, lastName, username, passwordHash, Role.EDITOR, department_id);
     }
+
+
 
     public boolean editTicket(Ticket t) {
         // TO DO: update ticket details once TicketDAO or controller logic is created
