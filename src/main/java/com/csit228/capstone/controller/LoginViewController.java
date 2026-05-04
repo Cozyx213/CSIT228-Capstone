@@ -1,6 +1,8 @@
 package com.csit228.capstone.controller;
 
 import com.csit228.capstone.dao.UserDAO;
+import com.csit228.capstone.exceptions.InvalidCredentialsException;
+import com.csit228.capstone.model.User;
 import com.csit228.capstone.utils.Controls;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -32,15 +34,17 @@ public class LoginViewController {
         String username = tfUsername.getText();
         String password = (cbPassword.isSelected()) ? tfPassword.getText() : pfPassword.getText();
 
-        // gamit dao here
 
 
         if(username.isBlank() || password.isBlank()){
             showError("Please fill in all fields.");
-        } else if(password.equals("Hello")){
-            Controls.switchScreen("MainView.fxml");
         } else {
-            showError("Username or password does not exist");
+            try{
+                User u = userDAO.login(username, password);
+                if(u != null) Controls.switchScreen("MainView.fxml");
+            } catch (InvalidCredentialsException e) {
+                showError("Invalid Credentials.");
+            }
         }
 
     }
