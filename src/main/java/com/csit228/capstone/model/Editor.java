@@ -6,8 +6,8 @@ public class Editor extends User {
         setRole(Role.EDITOR);
     }
 
-    public Editor(int userId, String fullName, String username, String passwordHash) {
-        super(userId, fullName, username, passwordHash, Role.EDITOR);
+    public Editor(int userId, String firstname, String lastname, String username, String passwordHash, Role role) {
+        super(userId, firstname, lastname, username, passwordHash, role);
     }
 
     public boolean editTicket(Ticket t) {

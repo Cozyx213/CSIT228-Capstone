@@ -6,8 +6,8 @@ public class Executive extends User {
         setRole(Role.EXECUTIVE);
     }
 
-    public Executive(int userId, String fullName, String username, String passwordHash) {
-        super(userId, fullName, username, passwordHash, Role.EXECUTIVE);
+    public Executive(int userId, String firstname, String lastname, String username, String passwordHash, Role role) {
+        super(userId, firstname, lastname, username, passwordHash, role);
     }
 
     public boolean createTicket(Ticket t) {

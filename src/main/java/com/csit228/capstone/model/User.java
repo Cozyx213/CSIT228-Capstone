@@ -7,7 +7,8 @@ public abstract class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int userId;
-    private String fullName;
+    private String firstname;
+    private String lastname;
     private String username;
     private transient String passwordHash;
     private Role role;
@@ -15,12 +16,29 @@ public abstract class User implements Serializable {
     public User() {
     }
 
-    public User(int userId, String fullName, String username, String passwordHash, Role role) {
+    public User(int userId, String firstname, String lastname, String username, String passwordHash, Role role) {
         this.userId = userId;
-        this.fullName = fullName;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.username = username;
         this.passwordHash = passwordHash;
         this.role = role;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public void viewDashboard() {

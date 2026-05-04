@@ -5,15 +5,13 @@ import java.util.List;
 
 public class Member extends User {
 
-    private String availabilityStatus;
 
     public Member() {
         setRole(Role.MEMBER);
     }
 
-    public Member(int userId, String fullName, String username, String passwordHash, String availabilityStatus) {
-        super(userId, fullName, username, passwordHash, Role.MEMBER);
-        this.availabilityStatus = availabilityStatus;
+    public Member(int userId, String firstname, String lastname, String username, String passwordHash, Role role) {
+        super(userId, firstname, lastname, username, passwordHash, role);
     }
 
     public void viewVolunteerBoard() {
