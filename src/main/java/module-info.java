@@ -11,7 +11,9 @@ module com.csit228.capstone {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.sql;
+    requires java.desktop;
+
 
     exports com.csit228.capstone.controller;
-    opens com.csit228.capstone.controller to javafx.fxml;
+    opens com.csit228.capstone.application to javafx.graphics, javafx.fxml;
 }
