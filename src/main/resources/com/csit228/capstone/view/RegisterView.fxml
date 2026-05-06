@@ -63,13 +63,13 @@
                      <Font size="14.0" />
                   </font>
                </Label>
-               <ComboBox fx:id="cbDepartment" onAction="#updatePositionComboBox" onMousePressed="#updatePositionComboBox" prefWidth="150.0" />
+               <ComboBox fx:id="cbDepartment" onAction="#updatePositionComboBox" onMousePressed="#updatePositionComboBox" prefWidth="150.0" promptText="Select department" />
                <Label prefHeight="14.0" prefWidth="72.0" text="Position:" textFill="#e8e8e8">
                   <font>
                      <Font size="14.0" />
                   </font>
                </Label>
-               <ComboBox fx:id="cbJob" prefWidth="150.0" />
+               <ComboBox fx:id="cbJob" prefWidth="150.0" promptText="Select position" />
             </children>
             <padding>
                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
