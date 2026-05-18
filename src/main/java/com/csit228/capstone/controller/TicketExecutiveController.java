@@ -264,7 +264,10 @@ public class TicketExecutiveController extends StaffTicketController {
       FXMLLoader loader =
               new FXMLLoader(getClass().getResource("/com/csit228/capstone/view/StaffTicketView.fxml"));
       Parent root = loader.load();
-
+      TicketDetailModelController controller = loader.getController();
+      if (controller != null) {
+        controller.loadTicket(ticket);
+      }
 
       openModal(root, "Ticket Details");
       refreshDashboard();
