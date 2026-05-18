@@ -353,17 +353,25 @@ public class ListRowItem extends VBox {
 
         StackPane avatarIcon = makeAvatar(initials, circleBg, circleText);
 
+        String titleText = (notification.getTitle() != null && !notification.getTitle().trim().isEmpty())
+                ? notification.getTitle()
+                : "Notification";
+        Label titleLabel = new Label(titleText);
+        titleLabel.setWrapText(true);
+        titleLabel.setMaxWidth(SMALL_CARD_TEXT_WIDTH);
+        titleLabel.setStyle("-fx-text-fill: #1c2b63; -fx-font-size: 12px; -fx-font-weight: bold;");
+
         String messageText = notification.getMessage() != null ? notification.getMessage() : "No notification message.";
         Label messageLabel = new Label(messageText);
         messageLabel.setWrapText(true);
         messageLabel.setMaxWidth(SMALL_CARD_TEXT_WIDTH);
-        messageLabel.setStyle("-fx-text-fill: #1c2b63; -fx-font-size: 11px; -fx-font-weight: bold;");
+        messageLabel.setStyle("-fx-text-fill: #4a5568; -fx-font-size: 11px;");
 
         String timeText = notification.getCreatedAt() != null ? notification.getCreatedAt().format(DATE_FORMATTER) : "No date";
         Label timeLabel = new Label(timeText);
         timeLabel.setStyle("-fx-text-fill: #9faad2; -fx-font-size: 9px;");
 
-        VBox textBox = new VBox(3, messageLabel, timeLabel);
+        VBox textBox = new VBox(3, titleLabel, messageLabel, timeLabel);
         textBox.setAlignment(Pos.CENTER_LEFT);
         textBox.setPrefWidth(SMALL_CARD_TEXT_WIDTH);
         textBox.setMaxWidth(SMALL_CARD_TEXT_WIDTH);
@@ -371,14 +379,14 @@ public class ListRowItem extends VBox {
         HBox row = new HBox(8, avatarIcon, textBox);
         row.setPrefWidth(SMALL_CARD_WIDTH);
         row.setMaxWidth(SMALL_CARD_WIDTH);
-        row.setMinHeight(52);
+
+        row.setMinHeight(60);
         row.setAlignment(Pos.CENTER_LEFT);
         row.setCursor(Cursor.HAND);
-        row.setStyle("-fx-background-color: transparent;");
+        row.setStyle("-fx-background-color: transparent; -fx-padding: 4 6 4 6;");
 
-        String normalStyle = row.getStyle();
         row.setOnMouseEntered(e -> row.setStyle("-fx-background-color: #f8faff; -fx-background-radius: 10; -fx-padding: 4 6 4 6;"));
-        row.setOnMouseExited(e  -> row.setStyle(normalStyle));
+        row.setOnMouseExited(e  -> row.setStyle("-fx-background-color: transparent; -fx-padding: 4 6 4 6;"));
 
         item.getChildren().add(row);
 

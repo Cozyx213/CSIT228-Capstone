@@ -441,11 +441,10 @@ public class TicketEditorController extends StaffTicketController {
     int departmentId = currentUser.getDepartment_id();
 
     for (User user : userDAO.getUsersByDepartment(departmentId)) {
-      if (user == null || user.getUserId() == currentUserId || !user.hasRole(Role.MEMBER)) {
+      if (!seenUserIds.add(user.getUserId())) {
         continue;
       }
-
-      if (seenUserIds.add(user.getUserId())) {
+      if (user.getUserId() == currentUserId || user.hasRole(Role.MEMBER)) {
         recipients.add(user);
       }
     }
