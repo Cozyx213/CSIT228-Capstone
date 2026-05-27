@@ -81,12 +81,6 @@ public class JobDAO {
   }
 
   public void addJobToDepartment(Department department, Job job) {
-    // ayaw e add dayun kay masayup ang id number
-
-    // make sure saktu ra id, ma update ang imo ge sulod nga job
-    // if wala makitan mag add siya, nya fetch siya sa tanan jobs, then use that newly
-    //      added one as the reference, if naa ra siya sa list daan, ang naa sa list iya gamiton
-
     Job check = searchJob(job);
     if (check != null) {
       job = check;
@@ -155,12 +149,6 @@ public class JobDAO {
     } catch (SQLException e) {
       System.out.println("Unable to fetch");
       throw new RuntimeException(e);
-    }
-  }
-
-  private void ensureJobsLoaded() {
-    if (!jobsLoaded) {
-      fetchJobs();
     }
   }
 }

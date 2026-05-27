@@ -88,31 +88,6 @@ public class TicketDAO {
 
     }
 
-    public boolean setLastUpdated(int ticketId, LocalDateTime updatedAt) {
-        String sql = """
-                UPDATE ticket
-                SET last_updated = ?
-                WHERE id = ?;
-                """;
-
-        try (Connection connection = DBConnector.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setTimestamp(1, Timestamp.valueOf(updatedAt));
-            stmt.setInt(2, ticketId);
-            int rows = stmt.executeUpdate();
-            if (rows > 0) {
-                ticketsDirty = true;
-            }
-            return rows > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-    }
-
     public static TicketDAO getTicketDAO() {
         if (ticketDAO == null) {
             ticketDAO = new TicketDAO();
@@ -167,56 +142,6 @@ public class TicketDAO {
             e.printStackTrace();
             return false;
         }
-    }
-
-    public Ticket getTicketById(int ticketId) {
-        String sql = """
-                SELECT *
-                FROM ticket t
-                WHERE t.id = ?
-                """;
-        try (Connection connection = DBConnector.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, ticketId);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-
-                    String priorityString = rs.getString("priority");
-                    TicketPriority priority = priorityString != null
-                            ? TicketPriority.valueOf(priorityString)
-                            : null;
-
-                    String statusString = rs.getString("status");
-                    TicketStatus status = statusString != null
-                            ? TicketStatus.valueOf(statusString)
-                            : null;
-
-                    Integer assignedTo = rs.getObject("assigned_to", Integer.class);
-                    Integer departmentId = rs.getObject("department_id", Integer.class);
-
-                    LocalDateTime deadline = rs.getObject("deadline", LocalDateTime.class);
-                    LocalDateTime dateCreated = rs.getObject("date_created", LocalDateTime.class);
-                    LocalDateTime lastUpdated = rs.getObject("last_updated", LocalDateTime.class);
-
-                    return new Ticket(
-                            rs.getInt("id"),
-                            rs.getString("title"),
-                            rs.getString("description"),
-                            priority,
-                            deadline,
-                            status,
-                            rs.getInt("created_by"),
-                            assignedTo,
-                            dateCreated,
-                            lastUpdated,
-                            departmentId
-                    );
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public synchronized void getTicketViews() {

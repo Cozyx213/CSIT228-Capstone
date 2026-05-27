@@ -398,7 +398,7 @@ public class ListRowItem extends VBox {
 
     }
 
-    public static ListRowItem forDepartment(Department department, int count) {
+    public static ListRowItem forDepartment(Department department) {
         ListRowItem item = new ListRowItem();
         item.sourceObject = department;
 
@@ -442,49 +442,6 @@ public class ListRowItem extends VBox {
 
         return item;
     }
-
-
-    public static ListRowItem forUser(User user) {
-        ListRowItem item = new ListRowItem();
-        item.sourceObject = user;
-
-        String initials   = getUserInitials(user);
-        String circleBg   = getAvatarBackground(initials);
-        String circleText = getAvatarTextColor(initials);
-
-        StackPane avatarIcon = makeAvatar(initials, circleBg, circleText);
-
-        String fullName = user != null ? user.getFullName() : "Unknown User";
-        String role     = (user != null && user.getRole() != null) ? user.getRole().toString() : "USER";
-
-        Label nameLabel = new Label(fullName);
-        nameLabel.setWrapText(true);
-        nameLabel.setStyle("-fx-text-fill: #1c2b63; -fx-font-size: 12px; -fx-font-weight: bold;");
-
-        Label roleLabel = new Label(role);
-        roleLabel.setWrapText(true);
-        roleLabel.setStyle("-fx-text-fill: #9faad2; -fx-font-size: 10px;");
-
-        VBox textBox = new VBox(3, nameLabel, roleLabel);
-        textBox.setAlignment(Pos.CENTER_LEFT);
-
-        HBox row = new HBox(8, avatarIcon, textBox);
-        row.setPrefWidth(SMALL_CARD_WIDTH);
-        row.setMaxWidth(SMALL_CARD_WIDTH);
-        row.setMinHeight(58);
-        row.setAlignment(Pos.CENTER_LEFT);
-        row.setPadding(new Insets(8, 10, 8, 10));
-        row.setCursor(Cursor.HAND);
-        row.setStyle("-fx-background-color: white; -fx-border-color: #eef2fb; -fx-border-width: 0 0 1 0;");
-
-        String normalStyle = row.getStyle();
-        row.setOnMouseEntered(e -> row.setStyle(normalStyle.replace("-fx-background-color: white;", "-fx-background-color: #f8faff;")));
-        row.setOnMouseExited(e  -> row.setStyle(normalStyle));
-
-        item.getChildren().add(row);
-        return item;
-    }
-
 
     private static VBox makeTicketDetailsBox(String title, String subtitle, double width) {
         String safeTitle    = title    != null ? title    : "Untitled Ticket";
@@ -710,25 +667,6 @@ public class ListRowItem extends VBox {
         return STATUS_OPEN;
     }
 
-    private static String getUserInitials(User user) {
-        if (user == null) return "NA";
-        String first = user.getFirstName();
-        String last  = user.getLastName();
-        String a = (first != null && !first.trim().isEmpty()) ? first.trim().substring(0, 1).toUpperCase() : "";
-        String b = (last  != null && !last.trim().isEmpty())  ? last.trim().substring(0, 1).toUpperCase()  : "";
-        String initials = a + b;
-        return initials.isBlank() ? "NA" : initials;
-    }
-
-    private static String getAvatarBackground(String initials) {
-        if (initials == null) return "#dceeff";
-        switch (initials.toUpperCase()) {
-            case "SJ": case "ER": case "JT": return "#d9ffed";
-            case "MC": case "MB":            return "#ffedcc";
-            default:                         return "#dceeff";
-        }
-    }
-
     private static String safeText(String value, String fallback) {
         if (value == null || value.trim().isEmpty() || value.equalsIgnoreCase("N/A")) {
             return fallback;
@@ -736,25 +674,12 @@ public class ListRowItem extends VBox {
         return value.trim();
     }
 
-    private static String getAvatarTextColor(String initials) {
-        if (initials == null) return "#2f95ff";
-        switch (initials.toUpperCase()) {
-            case "SJ": case "ER": case "JT": return "#4bcc8a";
-            case "MC": case "MB":            return "#ff9900";
-            default:                         return "#2f95ff";
-        }
-    }
-
-
-    public TicketView   getTicketView()   { return sourceObject instanceof TicketView   ? (TicketView)   sourceObject : null; }
-    public Notification getNotification() { return sourceObject instanceof Notification ? (Notification) sourceObject : null; }
     public User         getUser()         { return sourceObject instanceof User         ? (User)         sourceObject : null; }
-    public Object       getSourceObject() { return sourceObject; }
 
-    public Button         getActionButton()          { return actionButton; }
-    public Button         getSecondaryActionButton() { return secondaryActionButton; }
-    public Button         getThirdActionButton()     { return thirdActionButton; }
-    public ComboBox<User> getAssignComboBox()        { return assignComboBox; }
+    public Button getActionButton() { return actionButton; }
+    public Button getSecondaryActionButton() { return secondaryActionButton; }
+    public Button getThirdActionButton() { return thirdActionButton; }
+    public ComboBox<User> getAssignComboBox() { return assignComboBox; }
 
     public User getSelectedAssignedUser() {
         return assignComboBox != null ? assignComboBox.getValue() : null;
@@ -762,12 +687,6 @@ public class ListRowItem extends VBox {
 
     public void setAction(EventHandler<ActionEvent> handler) {
         if (actionButton != null) actionButton.setOnAction(handler);
-    }
-
-    public void setSecondaryAction(EventHandler<ActionEvent> eventHandler) {
-      if (secondaryActionButton != null) {
-        secondaryActionButton.setOnAction(eventHandler);
-      }
     }
 
     public void setThirdAction(EventHandler<ActionEvent> handler) {

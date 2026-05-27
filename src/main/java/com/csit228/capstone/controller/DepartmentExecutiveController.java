@@ -1,9 +1,7 @@
 package com.csit228.capstone.controller;
 
 import com.csit228.capstone.dao.DepartmentDAO;
-import com.csit228.capstone.dao.JobDAO;
 import com.csit228.capstone.model.Department;
-import com.csit228.capstone.model.Job;
 import com.csit228.capstone.utils.Controls;
 import com.csit228.capstone.utils.ListRowItem;
 import javafx.fxml.FXML;
@@ -16,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -35,11 +32,6 @@ public class DepartmentExecutiveController extends BaseTicketController {
     @FXML protected HBox hboxDashboard;
 
     DepartmentDAO departmentDAO = DepartmentDAO.getDepartmentDAO();
-    JobDAO jobDAO = JobDAO.getJobDAO();
-
-    public DepartmentExecutiveController getDepartmentExecutiveController(){
-        return this;
-    }
 
     @FXML
     public void initialize(){
@@ -48,22 +40,11 @@ public class DepartmentExecutiveController extends BaseTicketController {
         renderDepartment();
     }
 
-    public void refreshDepartment(){
-        System.out.println("Refreshing");
-        createDepartmentRowView();
-    }
-
-    public static void showInfo(Department d){
-        System.out.println(d.getId());
-        System.out.println(d.getName());
-        System.out.println(d.getDescription());
-    }
-
     public void renderDepartment(){
         scrollpaneDepartment.setContent(null);
         VBox container = new VBox();
         for(Department d: departmentDAO.getDepartments()){
-            ListRowItem item = ListRowItem.forDepartment(d, 10);
+            ListRowItem item = ListRowItem.forDepartment(d);
 
             item.setOnMousePressed(mouseEvent -> {
                 System.out.println(d.getName() + "is pressed");
@@ -89,10 +70,6 @@ public class DepartmentExecutiveController extends BaseTicketController {
     @FXML
     public void onClickedLogout() throws IOException {
         super.onClickedLogout();
-    }
-
-    public void deadlineSortComboBox(){
-        System.out.println("deadline Sort");
     }
 
     public void  onDeadlineSortChanged(){

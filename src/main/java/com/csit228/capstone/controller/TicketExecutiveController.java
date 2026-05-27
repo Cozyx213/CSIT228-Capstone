@@ -5,7 +5,6 @@ import com.csit228.capstone.enums.TicketStatus;
 import com.csit228.capstone.model.TicketView;
 import com.csit228.capstone.model.User;
 import com.csit228.capstone.utils.Controls;
-import com.csit228.capstone.utils.Formatter;
 import com.csit228.capstone.utils.ListRowItem;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,8 +12,6 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
@@ -39,27 +36,6 @@ public class TicketExecutiveController extends StaffTicketController {
 
   @FXML
   private Label overdueLabel;
-
-  @FXML
-  private Label resolutionRateLabel;
-
-  @FXML
-  private Label resolvedRatePercentLabel;
-
-  @FXML
-  private Label inProgressRatePercentLabel;
-
-  @FXML
-  private Label overdueRatePercentLabel;
-
-  @FXML
-  private ProgressBar resolvedProgressBar;
-
-  @FXML
-  private ProgressBar inProgressProgressBar;
-
-  @FXML
-  private ProgressBar overdueProgressBar;
 
   @FXML
   private HBox departmentTabsBox;
@@ -178,7 +154,6 @@ public class TicketExecutiveController extends StaffTicketController {
   }
 
   private void updateSummaryCardsAndResolutionRate() {
-    int total = tickets.size();
     int unassigned = 0, inProgress = 0, resolved = 0, overdue = 0;
 
     for (TicketView ticket : tickets) {
@@ -300,10 +275,6 @@ public class TicketExecutiveController extends StaffTicketController {
   public void goToManageUsers() throws IOException {
       showDashboardContent();
       Controls.switchScreen("ManageUserExecutive.fxml");
-  }
-
-  private double rate(int value, int total) {
-    return total <= 0 ? 0 : (double) value / total;
   }
 
 

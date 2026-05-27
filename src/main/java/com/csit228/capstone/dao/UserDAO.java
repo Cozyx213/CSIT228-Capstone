@@ -180,22 +180,7 @@ public class UserDAO {
       e.printStackTrace();
     }
   }
-  
-  public User getUser(int id) {
-    ensureUsersLoaded();
 
-    for (User u : users) {
-      if (u.getUserId() == id) {
-        return u;
-      }
-    }
-    return null;
-  }
-  
-  public User getUserById(int id) {
-    return getUser(id);
-  }
-  
   public User getUserByName(String fullname) {
     ensureUsersLoaded();
     for (User u : users) {
@@ -270,12 +255,6 @@ public class UserDAO {
       e.printStackTrace();
     }
   }
-  
-  public List<User> getUsers() {
-    ensureUsersLoaded();
-    return new ArrayList<>(users);
-  }
-  
   public String getJobNameByUserId(int userId) {
     String sql = "SELECT j.name FROM user_job uj INNER JOIN job j ON uj.job_id = j.id WHERE uj.user_id = ? LIMIT 1";
     try (Connection connection = DBConnector.getConnection();

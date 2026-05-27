@@ -1,7 +1,6 @@
 package com.csit228.capstone.model;
 
 import com.csit228.capstone.enums.Role;
-import com.csit228.capstone.enums.TicketStatus;
 
 public class Editor extends User {
 

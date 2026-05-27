@@ -26,22 +26,6 @@ public class CommentDAO {
         return commentDAO;
     }
 
-    public boolean delete(int id) {
-        String sql = """
-                DELETE FROM comment
-                WHERE id = ?;
-                """;
-        try (Connection connection = DBConnector.getConnection();
-            PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            int rows = stmt.executeUpdate();
-            return rows > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     public boolean createComment(int userId, int ticketId, String content) {
         String sql = """
                 INSERT INTO comment(user_id , ticket_id, content)
@@ -74,7 +58,7 @@ public class CommentDAO {
                    ;
                 """;
         try (Connection connection = DBConnector.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql);) {
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             List<Comment> res = new ArrayList<>();

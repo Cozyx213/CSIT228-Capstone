@@ -49,14 +49,6 @@ public abstract class User implements Serializable {
     this.department_id = department_id;
   }
   
-  public void viewDashboard() {
-    // TO DO: connect this to the JavaFX dashboard screen
-  }
-  
-  public void viewProfile() {
-    // TO DO: connect this to the JavaFX profile screen
-  }
-  
   public int getUserId() {
     return userId;
   }
@@ -69,16 +61,8 @@ public abstract class User implements Serializable {
     return firstName;
   }
   
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
-  
   public String getLastName() {
     return lastName;
-  }
-  
-  public void setLastname(String lastName) {
-    this.lastName = lastName;
   }
   
   public String getFullName() {
@@ -100,10 +84,6 @@ public abstract class User implements Serializable {
   
   public String getPasswordHash() {
     return passwordHash;
-  }
-  
-  public void setPasswordHash(String passwordHash) {
-    this.passwordHash = passwordHash;
   }
   
   public Role getRole() {

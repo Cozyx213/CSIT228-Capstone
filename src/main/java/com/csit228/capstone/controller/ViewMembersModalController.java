@@ -5,7 +5,6 @@ import com.csit228.capstone.dao.UserJobDAO;
 import com.csit228.capstone.model.Department;
 import com.csit228.capstone.model.User;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -27,7 +26,6 @@ public class ViewMembersModalController {
     @FXML private Label departmentLabel;
     @FXML private ScrollPane scrollPaneMembers;
     @FXML private Button buttonCancel;
-    @FXML private Button buttonViewDepartment;
     private Parent oldRoot;
     private ViewDepartmentModalController parentController;
 
@@ -104,10 +102,6 @@ public class ViewMembersModalController {
     @FXML
     public void onClickedCancel() {
         closeModal(buttonCancel);
-    }
-
-    private void goToUserManagement(User user) {
-        System.out.println("Navigating to manage: " + user.getFirstName());
     }
 
     protected void closeModal(Button sourceButton) {

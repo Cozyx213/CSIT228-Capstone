@@ -15,12 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Line;
 import javafx.stage.Stage;
-import javafx.stage.Window;
-
-import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +23,6 @@ public class ViewDepartmentModalController {
     private Department department;
     @FXML private Label departmentLabel;
     @FXML private Button buttonCancel;
-    @FXML private Button buttonAddJob;
-    @FXML private Button buttonClose;
     @FXML private Label descriptionLabel;
     @FXML private ScrollPane scrollPane;
     @FXML private Button buttonSaveChanges;
@@ -164,10 +157,6 @@ public class ViewDepartmentModalController {
         }
     }
 
-    public void onClickedButtonClose(){
-        departmentExecutiveController.renderDepartment();
-        closeModal(buttonClose);
-    }
 
     public void onClickedSaveChanges(){
         deleteJobs();

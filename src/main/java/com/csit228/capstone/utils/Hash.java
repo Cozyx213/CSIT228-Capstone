@@ -29,7 +29,4 @@ public class Hash {
     System.out.println(hashWithSHA256("jake"));
   }
 
-  public static String test(String message) {
-    return message + "Hi!";
-  }
 }

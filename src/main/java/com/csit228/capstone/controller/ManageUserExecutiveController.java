@@ -1,48 +1,38 @@
 package com.csit228.capstone.controller;
 
 import com.csit228.capstone.dao.DepartmentDAO;
-import com.csit228.capstone.dao.JobDAO;
 import com.csit228.capstone.dao.UserDAO;
 import com.csit228.capstone.dao.UserJobDAO;
 import com.csit228.capstone.model.Department;
-import com.csit228.capstone.model.Job;
 import com.csit228.capstone.model.User;
 import com.csit228.capstone.utils.Controls;
-import com.csit228.capstone.utils.ListRowItem;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
-
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class ManageUserExecutiveController extends BaseTicketController {
     @FXML protected ScrollPane scrollpaneDepartment;
     @FXML protected ScrollPane scrollpaneUsers;
-    @FXML protected Button createUserAccount;
 
 
 
     @FXML protected HBox hboxDashboard;
 
     DepartmentDAO departmentDAO = DepartmentDAO.getDepartmentDAO();
-    JobDAO jobDAO = JobDAO.getJobDAO();
     UserDAO userDAO = UserDAO.getUserDAO();
     UserJobDAO userJobDAO = UserJobDAO.getUserJobDao();
 
@@ -51,17 +41,6 @@ public class ManageUserExecutiveController extends BaseTicketController {
     public void initialize(){
         setupProfile();
         renderDepartment();
-    }
-
-    public void refreshDepartment(){
-        System.out.println("Refreshing");
-
-    }
-
-    public static void showInfo(Department d){
-        System.out.println(d.getId());
-        System.out.println(d.getName());
-        System.out.println(d.getDescription());
     }
 
     public void renderDepartment(){
@@ -119,10 +98,6 @@ public class ManageUserExecutiveController extends BaseTicketController {
         super.onClickedLogout();
     }
 
-    public void deadlineSortComboBox(){
-        System.out.println("deadline Sort");
-    }
-
     public void  onDeadlineSortChanged(){
         System.out.println("deadline Sort");
     }
@@ -134,8 +109,6 @@ public class ManageUserExecutiveController extends BaseTicketController {
         VBox container = new VBox();
         container.setPadding(new Insets(10));
         container.prefWidthProperty().bind(scrollpaneUsers.widthProperty().subtract(25));
-
-        int count = 0;
         for(User u : userDAO.getUserByDepartment(department.getId())){
 
             HBox row = new HBox();

@@ -186,22 +186,6 @@ public class NotificationDAO {
         return unreadList;
     }
 
-    public Notification getNotificationById(int id) {
-        ensureNotificationsLoaded();
-
-        for (Notification notification : notifications) {
-            if (notification.getNotificationId() == id) {
-                return notification;
-            }
-        }
-
-        return null;
-    }
-
-    public List<Notification> getNotifications() {
-        ensureNotificationsLoaded();
-        return new ArrayList<>(notifications);
-    }
 
     public List<Notification> getNotificationsByUserId(int userId) {
         ensureNotificationsLoaded();
@@ -215,103 +199,6 @@ public class NotificationDAO {
         }
 
         return userNotifications;
-    }
-
-    public List<Notification> getUnreadNotificationsByUserId(int userId) {
-        ensureNotificationsLoaded();
-
-        List<Notification> unreadNotifications = new ArrayList<>();
-
-        for (Notification notification : notifications) {
-            if (notification.getUserId() == userId && !notification.isRead()) {
-                unreadNotifications.add(notification);
-            }
-        }
-
-        return unreadNotifications;
-    }
-
-    public int getUnreadCount(int userId) {
-        return getUnreadNotificationsByUserId(userId).size();
-    }
-
-    public boolean markAsRead(int notificationId) {
-        String sql = """
-                UPDATE notification
-                SET is_read = ?
-                WHERE id = ?;
-                """;
-
-        try (Connection connection = DBConnector.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setBoolean(1, true);
-            stmt.setInt(2, notificationId);
-
-            int rows = stmt.executeUpdate();
-
-            if (rows > 0) {
-                notificationsDirty = true;
-            }
-
-            return rows > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean markAllAsRead(int userId) {
-        String sql = """
-                UPDATE notification
-                SET is_read = ?
-                WHERE user_id = ? AND is_read = ?;
-                """;
-
-        try (Connection connection = DBConnector.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setBoolean(1, true);
-            stmt.setInt(2, userId);
-            stmt.setBoolean(3, false);
-
-            int rows = stmt.executeUpdate();
-
-            if (rows > 0) {
-                notificationsDirty = true;
-            }
-
-            return rows > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean delete(int notificationId) {
-        String sql = """
-                DELETE FROM notification
-                WHERE id = ?;
-                """;
-
-        try (Connection connection = DBConnector.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setInt(1, notificationId);
-            int rows = stmt.executeUpdate();
-
-            if (rows > 0) {
-                notificationsDirty = true;
-            }
-
-            return rows > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     public void fetchNotifications() {
