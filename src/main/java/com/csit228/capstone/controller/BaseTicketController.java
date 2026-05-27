@@ -4,7 +4,6 @@ import com.csit228.capstone.dao.NotificationDAO;
 import com.csit228.capstone.dao.TicketDAO;
 import com.csit228.capstone.enums.TicketStatus;
 import com.csit228.capstone.model.Notification;
-import com.csit228.capstone.dao.DepartmentDAO;
 import com.csit228.capstone.model.TicketView;
 import com.csit228.capstone.model.User;
 import com.csit228.capstone.observer.NotificationObserver;
@@ -159,8 +158,10 @@ public abstract class BaseTicketController implements TicketObserver, Notificati
   }
   
   protected boolean isAvailableTicket(TicketView ticket) {
-    if (ticket == null || !isUnassigned(ticket))
+    if (ticket == null || !isUnassigned(ticket)) {
       return false;
+    }
+
     return isStatus(ticket, TicketStatus.OPEN.name());
   }
   
@@ -179,19 +180,6 @@ public abstract class BaseTicketController implements TicketObserver, Notificati
     return (ticket == null || ticket.getAssignedToName() == null || ticket.getAssignedToName().trim().isEmpty());
   }
   
-  protected boolean isAvailableUnderDept(TicketView ticket) {
-    User currentUser = AppSession.currentUser;
-    if (currentUser == null || ticket == null || !isUnassigned(ticket) || !isStatus(ticket, TicketStatus.OPEN.name())) {
-      return false;
-    }
-
-    String currentDeptName = DepartmentDAO.getDepartmentDAO().getDepartmentNameByID(currentUser.getDepartment_id());
-    String ticketDeptName = ticket.getDepartmentName();
-
-    return currentDeptName != null && ticketDeptName != null &&
-           currentDeptName.trim().equalsIgnoreCase(ticketDeptName.trim());
-  }
-  
   protected boolean isOverdue(TicketView ticket) {
     if (ticket == null || ticket.getDeadline() == null)
       return false;
@@ -200,27 +188,8 @@ public abstract class BaseTicketController implements TicketObserver, Notificati
     return LocalDate.now().isAfter(ticket.getDeadline().toLocalDate());
   }
 
-  protected boolean isInProgress(TicketView ticket) {
-    return (isStatus(ticket, TicketStatus.IN_PROGRESS.name()));
-  }
-  
-  protected boolean isCompleted(TicketView ticket) {
-    return (isStatus(ticket, TicketStatus.COMPLETED.name()));
-  }
-  
   protected boolean isResolved(TicketView ticket) {
     return (isStatus(ticket, TicketStatus.RESOLVED.name()));
-  }
-  
-  protected boolean isOverdueInProgress(TicketView ticket) {
-    return isInProgress(ticket) && isOverdue(ticket);
-  }
-  
-  protected boolean isVolunteerTicket(TicketView ticket) {
-    if (ticket == null)
-      return false;
-    String dept = ticket.getDepartmentName();
-    return dept.equalsIgnoreCase("Volunteer") && isUnassigned(ticket) && isStatus(ticket, TicketStatus.OPEN.name());
   }
   
   protected boolean matchesTicketSearch(TicketView ticket, String keyword) {

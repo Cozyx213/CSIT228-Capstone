@@ -2,7 +2,6 @@ package com.csit228.capstone.controller;
 
 import com.csit228.capstone.dao.DepartmentDAO;
 import com.csit228.capstone.enums.TicketStatus;
-import com.csit228.capstone.model.Ticket;
 import com.csit228.capstone.model.TicketView;
 import com.csit228.capstone.model.User;
 import com.csit228.capstone.utils.AppSession;
@@ -20,7 +19,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -369,27 +367,6 @@ public class TicketMemberController extends BaseTicketController {
         }
     }
 
-    private void markTaskAsCompleted(TicketView ticket) {
-        if (ticket == null) {
-            showError("No ticket selected.");
-            return;
-        }
-
-        if (!isAssignedToCurrentUser(ticket)) {
-            showError("You can only update tickets assigned to you.");
-            return;
-        }
-
-        boolean updated = ticketDAO.updateStatus(ticket.getId(), TicketStatus.COMPLETED);
-
-        if (updated) {
-            showInfo("Task marked as completed and sent for review.");
-            refreshDashboard();
-        } else {
-            showError("Unable to complete task.");
-        }
-    }
-
     private void openMasterTicketDetail(TicketView ticket) {
         if (ticket == null) {
             showError("No ticket selected.");
@@ -477,14 +454,6 @@ public class TicketMemberController extends BaseTicketController {
         modalStage.sizeToScene();
         modalStage.setOnShown(event -> modalStage.centerOnScreen());
         modalStage.showAndWait();
-    }
-
-    protected boolean isAvailableTicket(TicketView ticket) {
-        if (ticket == null || !isUnassigned(ticket)) {
-            return false;
-        }
-
-        return isStatus(ticket, TicketStatus.OPEN.name());
     }
 
     protected boolean isAssignedToCurrentUser(TicketView ticket) {

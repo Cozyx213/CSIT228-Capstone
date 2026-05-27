@@ -38,22 +38,6 @@ public class Notification implements Serializable {
     this.title = title;
   }
 
-  public void markAsRead() {
-    this.read = true;
-  }
-
-  public void sendTo(User u) {
-    if (u != null) {
-      this.userId = u.getUserId();
-    }
-
-    //iconnect sa NotificationDAO
-  }
-
-  public int getNotificationId() {
-    return notificationId;
-  }
-
   public int getId() {
     return notificationId;
   }
@@ -70,48 +54,19 @@ public class Notification implements Serializable {
     return message;
   }
 
-  public void setMessage(String message) {
-    this.message = message;
-  }
-
-
   public boolean isRead() {
     return read;
-  }
-
-  public boolean getIsRead() {
-    return read;
-  }
-
-  public void setRead(boolean read) {
-    this.read = read;
-  }
-
-  public void setIsRead(boolean read) {
-    this.read = read;
   }
 
   public LocalDateTime getCreatedAt() {
     return createdAt;
   }
 
-  public void setCreatedAt(LocalDateTime createdAt) {
-    this.createdAt = createdAt;
-  }
-
   public int getUserId() {
     return userId;
   }
 
-  public int getReceiverId() {
-    return userId;
-  }
-
   public void setUserId(int userId) {
-    this.userId = userId;
-  }
-
-  public void setReceiverId(int userId) {
     this.userId = userId;
   }
 

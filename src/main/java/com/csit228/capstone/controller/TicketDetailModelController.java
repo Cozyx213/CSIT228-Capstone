@@ -4,7 +4,6 @@ import com.csit228.capstone.dao.CommentDAO;
 import com.csit228.capstone.dao.DepartmentDAO;
 import com.csit228.capstone.dao.TicketDAO;
 import com.csit228.capstone.dao.UserDAO;
-import com.csit228.capstone.enums.Role;
 import com.csit228.capstone.enums.TicketStatus;
 import com.csit228.capstone.model.Comment;
 import com.csit228.capstone.model.TicketView;
@@ -15,10 +14,8 @@ import com.csit228.capstone.utils.AppSession;
 import com.csit228.capstone.utils.NotificationManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.Node;
 import javafx.scene.layout.*;
@@ -27,8 +24,6 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -101,7 +96,6 @@ public class TicketDetailModelController implements CommentObserver {
     private final UserDAO userDAO = UserDAO.getUserDAO();
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy");
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
-    public TextField reviewTitleField;
   
     private TicketMemberController parentController;
 
@@ -690,10 +684,6 @@ public class TicketDetailModelController implements CommentObserver {
         return reviewCommentArea != null && !isBlank(reviewCommentArea.getText());
     }
 
-    private String safe(String value) {
-        return safe(value, "N/A");
-    }
-
     private String safe(String value, String fallback) {
         return value == null || value.trim().isEmpty() ? fallback : value.trim();
     }
@@ -710,7 +700,7 @@ public class TicketDetailModelController implements CommentObserver {
     this.parentController = parentController;
   }
   
-  public void onStartTicketClicked(ActionEvent event) throws IOException {
+  public void onStartTicketClicked(ActionEvent event){
     if (parentController != null && currentTicket != null) {
       parentController.takeTicket(currentTicket);
       

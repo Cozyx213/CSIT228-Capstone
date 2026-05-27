@@ -25,10 +25,6 @@ public class Serializer {
     return this;
   }
 
-  public Serializer build() {
-    return this;
-  }
-
   public boolean serialize() {
     if (filePath == null || filePath.trim().isEmpty()) {
       return false;
@@ -82,9 +78,5 @@ public class Serializer {
 
   public Ticket getTicket() {
     return ticket;
-  }
-
-  public String getFilePath() {
-    return filePath;
   }
 }

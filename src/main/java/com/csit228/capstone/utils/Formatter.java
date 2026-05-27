@@ -3,7 +3,6 @@ package com.csit228.capstone.utils;
 import com.csit228.capstone.model.User;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import javafx.scene.paint.Color;
 
 public class Formatter {
 
@@ -66,8 +65,5 @@ public class Formatter {
     return value.trim();
   }
 
-  public static String formatPercent(double rate) {
-    return Math.round(rate * 100) + "%";
-  }
 
 }

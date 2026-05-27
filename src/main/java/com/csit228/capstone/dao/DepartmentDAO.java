@@ -2,7 +2,6 @@ package com.csit228.capstone.dao;
 
 import com.csit228.capstone.database.DBConnector;
 import com.csit228.capstone.model.Department;
-import com.csit228.capstone.model.Job;
 
 import java.sql.*;
 import java.util.ArrayList;

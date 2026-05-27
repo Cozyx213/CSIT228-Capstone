@@ -4,7 +4,6 @@ import com.csit228.capstone.model.Department;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import com.csit228.capstone.dao.NotificationDAO;
-import com.csit228.capstone.enums.Role;
 import com.csit228.capstone.enums.TicketStatus;
 import com.csit228.capstone.model.TicketView;
 import com.csit228.capstone.model.User;
@@ -14,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -318,23 +316,6 @@ public class TicketEditorController extends StaffTicketController {
     }
   }
 
-  private int getFilteredTicketCount() {
-    int count = 0;
-    String keyword = searchField != null ? searchField.getText() : "";
-
-    for (TicketView ticket : tickets) {
-      if (isVisibleInReviewQueue(ticket) && matchesCurrentFilter(ticket) && matchesTicketSearch(ticket, keyword))
-        count++;
-    }
-    return count;
-  }
-
-  private boolean isVisibleInReviewQueue(TicketView ticket) {
-    if (ticket == null)
-      return false;
-    return !(ticket.isVolunteerTicket() && isUnassigned(ticket));
-  }
-  
   private void hideReviewActionButtons(ListRowItem row) {
     if (row == null)
       return;

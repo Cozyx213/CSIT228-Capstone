@@ -2,12 +2,7 @@ package com.csit228.capstone.dao;
 
 
 import com.csit228.capstone.database.DBConnector;
-import com.csit228.capstone.model.Job;
-import com.csit228.capstone.model.User;
-
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserJobDAO {
 
@@ -42,55 +37,6 @@ public class UserJobDAO {
             e.printStackTrace();
         }
         return job;
-    }
-
-    public void assignJobToUser(int userId, int jobId) {
-        String query = "INSERT INTO user_job (user_id, job_id) VALUES (?, ?)";
-        try (Connection conn = DBConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, userId);
-            stmt.setInt(2, jobId);
-            stmt.executeUpdate();
-            System.out.println("Job " + jobId + " assigned to User " + userId);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public List<Job> getJobsByUserId(int userId) {
-        List<Job> userJobs = new ArrayList<>();
-        String query = "SELECT j.id, j.name FROM job j " +
-                "JOIN user_job uj ON j.id = uj.job_id " +
-                "WHERE uj.user_id = ?";
-
-        try (Connection conn = DBConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, userId);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                userJobs.add(new Job(
-                        rs.getInt("id"),
-                        rs.getString("name")
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return userJobs;
-    }
-
-    public void removeJobFromUser(int userId, int jobId) {
-        String query = "DELETE FROM user_job WHERE user_id = ? AND job_id = ?";
-
-        try (Connection conn = DBConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, userId);
-            stmt.setInt(2, jobId);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void main(String[] args) {
